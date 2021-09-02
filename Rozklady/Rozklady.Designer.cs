@@ -345,6 +345,10 @@ namespace Rozklady {
             
             private global::System.Data.DataColumn columnPrzewoznik;
             
+            private global::System.Data.DataColumn columnNazwaPrzewoznika;
+            
+            private global::System.Data.DataColumn columnSymbolPrzewoznika;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public RozkladDataTable() {
@@ -644,6 +648,22 @@ namespace Rozklady {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn NazwaPrzewoznikaColumn {
+                get {
+                    return this.columnNazwaPrzewoznika;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SymbolPrzewoznikaColumn {
+                get {
+                    return this.columnSymbolPrzewoznika;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -711,7 +731,9 @@ namespace Rozklady {
                         string StacjaPrzez1, 
                         string StacjaPrzez2, 
                         string StacjaKon, 
-                        int Przewoznik) {
+                        int Przewoznik, 
+                        string NazwaPrzewoznika, 
+                        string SymbolPrzewoznika) {
                 RozkladRow rowRozkladRow = ((RozkladRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -746,7 +768,9 @@ namespace Rozklady {
                         StacjaPrzez1,
                         StacjaPrzez2,
                         StacjaKon,
-                        Przewoznik};
+                        Przewoznik,
+                        NazwaPrzewoznika,
+                        SymbolPrzewoznika};
                 rowRozkladRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRozkladRow);
                 return rowRozkladRow;
@@ -809,6 +833,8 @@ namespace Rozklady {
                 this.columnStacjaPrzez2 = base.Columns["StacjaPrzez2"];
                 this.columnStacjaKon = base.Columns["StacjaKon"];
                 this.columnPrzewoznik = base.Columns["Przewoznik"];
+                this.columnNazwaPrzewoznika = base.Columns["NazwaPrzewoznika"];
+                this.columnSymbolPrzewoznika = base.Columns["SymbolPrzewoznika"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -880,6 +906,10 @@ namespace Rozklady {
                 base.Columns.Add(this.columnStacjaKon);
                 this.columnPrzewoznik = new global::System.Data.DataColumn("Przewoznik", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPrzewoznik);
+                this.columnNazwaPrzewoznika = new global::System.Data.DataColumn("NazwaPrzewoznika", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNazwaPrzewoznika);
+                this.columnSymbolPrzewoznika = new global::System.Data.DataColumn("SymbolPrzewoznika", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSymbolPrzewoznika);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnUID}, true));
                 this.columnUID.AutoIncrement = true;
@@ -894,6 +924,8 @@ namespace Rozklady {
                 this.columnStacjaPrzez1.MaxLength = 150;
                 this.columnStacjaPrzez2.MaxLength = 150;
                 this.columnStacjaKon.MaxLength = 150;
+                this.columnNazwaPrzewoznika.MaxLength = 60;
+                this.columnSymbolPrzewoznika.MaxLength = 4;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1559,6 +1591,38 @@ namespace Rozklady {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string NazwaPrzewoznika {
+                get {
+                    try {
+                        return ((string)(this[this.tableRozklad.NazwaPrzewoznikaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Wartość z kolumny \'NazwaPrzewoznika\' w tabeli \'Rozklad\' to DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRozklad.NazwaPrzewoznikaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string SymbolPrzewoznika {
+                get {
+                    try {
+                        return ((string)(this[this.tableRozklad.SymbolPrzewoznikaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Wartość z kolumny \'SymbolPrzewoznika\' w tabeli \'Rozklad\' to DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRozklad.SymbolPrzewoznikaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool Isid_rozkladuNull() {
                 return this.IsNull(this.tableRozklad.id_rozkladuColumn);
             }
@@ -1940,6 +2004,30 @@ namespace Rozklady {
             public void SetPrzewoznikNull() {
                 this[this.tableRozklad.PrzewoznikColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsNazwaPrzewoznikaNull() {
+                return this.IsNull(this.tableRozklad.NazwaPrzewoznikaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetNazwaPrzewoznikaNull() {
+                this[this.tableRozklad.NazwaPrzewoznikaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSymbolPrzewoznikaNull() {
+                return this.IsNull(this.tableRozklad.SymbolPrzewoznikaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSymbolPrzewoznikaNull() {
+                this[this.tableRozklad.SymbolPrzewoznikaColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -2134,6 +2222,8 @@ namespace Rozklady.RozkladyTableAdapters {
             tableMapping.ColumnMappings.Add("StacjaPrzez2", "StacjaPrzez2");
             tableMapping.ColumnMappings.Add("StacjaKon", "StacjaKon");
             tableMapping.ColumnMappings.Add("Przewoznik", "Przewoznik");
+            tableMapping.ColumnMappings.Add("NazwaPrzewoznika", "NazwaPrzewoznika");
+            tableMapping.ColumnMappings.Add("SymbolPrzewoznika", "SymbolPrzewoznika");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -2153,6 +2243,8 @@ namespace Rozklady.RozkladyTableAdapters {
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StacjaPrzez2", global::System.Data.SqlDbType.NVarChar, 150, global::System.Data.ParameterDirection.Input, 0, 0, "StacjaPrzez2", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StacjaKon", global::System.Data.SqlDbType.NVarChar, 150, global::System.Data.ParameterDirection.Input, 0, 0, "StacjaKon", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Przewoznik", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "Przewoznik", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@NazwaPrzewoznika", global::System.Data.SqlDbType.NVarChar, 60, global::System.Data.ParameterDirection.Input, 0, 0, "NazwaPrzewoznika", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SymbolPrzewoznika", global::System.Data.SqlDbType.NVarChar, 4, global::System.Data.ParameterDirection.Input, 0, 0, "SymbolPrzewoznika", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id_rozkladu", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "id_rozkladu", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@identk", global::System.Data.SqlDbType.NVarChar, 15, global::System.Data.ParameterDirection.Input, 0, 0, "identk", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@wazny_od", global::System.Data.SqlDbType.Date, 3, global::System.Data.ParameterDirection.Input, 10, 0, "wazny_od", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -2190,6 +2282,8 @@ namespace Rozklady.RozkladyTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StacjaPrzez2", global::System.Data.SqlDbType.NVarChar, 150, global::System.Data.ParameterDirection.Input, 0, 0, "StacjaPrzez2", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StacjaKon", global::System.Data.SqlDbType.NVarChar, 150, global::System.Data.ParameterDirection.Input, 0, 0, "StacjaKon", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Przewoznik", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "Przewoznik", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@NazwaPrzewoznika", global::System.Data.SqlDbType.NVarChar, 60, global::System.Data.ParameterDirection.Input, 0, 0, "NazwaPrzewoznika", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SymbolPrzewoznika", global::System.Data.SqlDbType.NVarChar, 4, global::System.Data.ParameterDirection.Input, 0, 0, "SymbolPrzewoznika", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id_rozkladu", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "id_rozkladu", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@identk", global::System.Data.SqlDbType.NVarChar, 15, global::System.Data.ParameterDirection.Input, 0, 0, "identk", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@wazny_od", global::System.Data.SqlDbType.Date, 3, global::System.Data.ParameterDirection.Input, 10, 0, "wazny_od", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -2329,6 +2423,8 @@ namespace Rozklady.RozkladyTableAdapters {
                     string StacjaPrzez2, 
                     string StacjaKon, 
                     global::System.Nullable<int> Przewoznik, 
+                    string NazwaPrzewoznika, 
+                    string SymbolPrzewoznika, 
                     global::System.Nullable<int> id_rozkladu, 
                     string identk, 
                     global::System.Nullable<global::System.DateTime> wazny_od, 
@@ -2396,155 +2492,167 @@ namespace Rozklady.RozkladyTableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
-            if ((id_rozkladu.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[8].Value = ((int)(id_rozkladu.Value));
-            }
-            else {
+            if ((NazwaPrzewoznika == null)) {
                 this.Adapter.InsertCommand.Parameters[8].Value = global::System.DBNull.Value;
             }
-            if ((identk == null)) {
+            else {
+                this.Adapter.InsertCommand.Parameters[8].Value = ((string)(NazwaPrzewoznika));
+            }
+            if ((SymbolPrzewoznika == null)) {
                 this.Adapter.InsertCommand.Parameters[9].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[9].Value = ((string)(identk));
+                this.Adapter.InsertCommand.Parameters[9].Value = ((string)(SymbolPrzewoznika));
             }
-            if ((wazny_od.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[10].Value = ((System.DateTime)(wazny_od.Value));
+            if ((id_rozkladu.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[10].Value = ((int)(id_rozkladu.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
-            if ((wazny_do.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[11].Value = ((System.DateTime)(wazny_do.Value));
-            }
-            else {
+            if ((identk == null)) {
                 this.Adapter.InsertCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
-            if ((kalendarz.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[12].Value = ((int)(kalendarz.Value));
+            else {
+                this.Adapter.InsertCommand.Parameters[11].Value = ((string)(identk));
+            }
+            if ((wazny_od.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[12].Value = ((System.DateTime)(wazny_od.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
-            if ((id_kursu.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[13].Value = ((int)(id_kursu.Value));
+            if ((wazny_do.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[13].Value = ((System.DateTime)(wazny_do.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[13].Value = global::System.DBNull.Value;
             }
-            if ((nr_przystanku.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[14].Value = ((int)(nr_przystanku.Value));
+            if ((kalendarz.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[14].Value = ((int)(kalendarz.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[14].Value = global::System.DBNull.Value;
             }
-            if ((kod_przystanku.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[15].Value = ((int)(kod_przystanku.Value));
+            if ((id_kursu.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[15].Value = ((int)(id_kursu.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[15].Value = global::System.DBNull.Value;
             }
-            if ((godz_p.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[16].Value = ((System.TimeSpan)(godz_p.Value));
+            if ((nr_przystanku.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[16].Value = ((int)(nr_przystanku.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[16].Value = global::System.DBNull.Value;
             }
-            if ((godz_o.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[17].Value = ((System.TimeSpan)(godz_o.Value));
+            if ((kod_przystanku.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[17].Value = ((int)(kod_przystanku.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[17].Value = global::System.DBNull.Value;
             }
-            if ((stanowisko == null)) {
-                this.Adapter.InsertCommand.Parameters[18].Value = global::System.DBNull.Value;
+            if ((godz_p.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[18].Value = ((System.TimeSpan)(godz_p.Value));
             }
             else {
-                this.Adapter.InsertCommand.Parameters[18].Value = ((string)(stanowisko));
+                this.Adapter.InsertCommand.Parameters[18].Value = global::System.DBNull.Value;
             }
-            if ((limit_sp.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[19].Value = ((int)(limit_sp.Value));
+            if ((godz_o.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[19].Value = ((System.TimeSpan)(godz_o.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[19].Value = global::System.DBNull.Value;
             }
-            if ((ile_dni_trwa_kurs.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[20].Value = ((int)(ile_dni_trwa_kurs.Value));
-            }
-            else {
+            if ((stanowisko == null)) {
                 this.Adapter.InsertCommand.Parameters[20].Value = global::System.DBNull.Value;
             }
-            if ((przystanek_poczatkowy.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[21].Value = ((int)(przystanek_poczatkowy.Value));
+            else {
+                this.Adapter.InsertCommand.Parameters[20].Value = ((string)(stanowisko));
+            }
+            if ((limit_sp.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[21].Value = ((int)(limit_sp.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[21].Value = global::System.DBNull.Value;
             }
-            if ((przystanek_koncowy.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[22].Value = ((int)(przystanek_koncowy.Value));
+            if ((ile_dni_trwa_kurs.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[22].Value = ((int)(ile_dni_trwa_kurs.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[22].Value = global::System.DBNull.Value;
             }
-            if ((przystanek_tworzacy_1.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[23].Value = ((int)(przystanek_tworzacy_1.Value));
+            if ((przystanek_poczatkowy.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[23].Value = ((int)(przystanek_poczatkowy.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[23].Value = global::System.DBNull.Value;
             }
-            if ((przystanek_tworzacy_2.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[24].Value = ((int)(przystanek_tworzacy_2.Value));
+            if ((przystanek_koncowy.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[24].Value = ((int)(przystanek_koncowy.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[24].Value = global::System.DBNull.Value;
             }
-            if ((nr_bis.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[25].Value = ((int)(nr_bis.Value));
+            if ((przystanek_tworzacy_1.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[25].Value = ((int)(przystanek_tworzacy_1.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[25].Value = global::System.DBNull.Value;
             }
-            if ((data.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[26].Value = ((System.DateTime)(data.Value));
+            if ((przystanek_tworzacy_2.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[26].Value = ((int)(przystanek_tworzacy_2.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[26].Value = global::System.DBNull.Value;
             }
-            if ((id_bisa.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[27].Value = ((int)(id_bisa.Value));
+            if ((nr_bis.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[27].Value = ((int)(nr_bis.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[27].Value = global::System.DBNull.Value;
             }
-            if ((auto_duzy_bus.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[28].Value = ((bool)(auto_duzy_bus.Value));
+            if ((data.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[28].Value = ((System.DateTime)(data.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[28].Value = global::System.DBNull.Value;
             }
-            if ((godz_odj.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[29].Value = ((System.TimeSpan)(godz_odj.Value));
+            if ((id_bisa.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[29].Value = ((int)(id_bisa.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[29].Value = global::System.DBNull.Value;
             }
-            if ((godz_przyjazdu.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[30].Value = ((System.TimeSpan)(godz_przyjazdu.Value));
+            if ((auto_duzy_bus.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[30].Value = ((bool)(auto_duzy_bus.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[30].Value = global::System.DBNull.Value;
             }
-            if ((duzy_autobus.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[31].Value = ((bool)(duzy_autobus.Value));
+            if ((godz_odj.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[31].Value = ((System.TimeSpan)(godz_odj.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[31].Value = global::System.DBNull.Value;
             }
-            if ((diagram_kurs_odwolany.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[32].Value = ((bool)(diagram_kurs_odwolany.Value));
+            if ((godz_przyjazdu.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[32].Value = ((System.TimeSpan)(godz_przyjazdu.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[32].Value = global::System.DBNull.Value;
+            }
+            if ((duzy_autobus.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[33].Value = ((bool)(duzy_autobus.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[33].Value = global::System.DBNull.Value;
+            }
+            if ((diagram_kurs_odwolany.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[34].Value = ((bool)(diagram_kurs_odwolany.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[34].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -2574,6 +2682,8 @@ namespace Rozklady.RozkladyTableAdapters {
                     string StacjaPrzez2, 
                     string StacjaKon, 
                     global::System.Nullable<int> Przewoznik, 
+                    string NazwaPrzewoznika, 
+                    string SymbolPrzewoznika, 
                     global::System.Nullable<int> id_rozkladu, 
                     string identk, 
                     global::System.Nullable<global::System.DateTime> wazny_od, 
@@ -2643,167 +2753,179 @@ namespace Rozklady.RozkladyTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
-            if ((id_rozkladu.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(id_rozkladu.Value));
-            }
-            else {
+            if ((NazwaPrzewoznika == null)) {
                 this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
             }
-            if ((identk == null)) {
+            else {
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(NazwaPrzewoznika));
+            }
+            if ((SymbolPrzewoznika == null)) {
                 this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(identk));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(SymbolPrzewoznika));
             }
-            if ((wazny_od.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((System.DateTime)(wazny_od.Value));
+            if ((id_rozkladu.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(id_rozkladu.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
-            if ((wazny_do.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((System.DateTime)(wazny_do.Value));
-            }
-            else {
+            if ((identk == null)) {
                 this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
-            if ((kalendarz.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(kalendarz.Value));
+            else {
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(identk));
+            }
+            if ((wazny_od.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((System.DateTime)(wazny_od.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
-            if ((id_kursu.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(id_kursu.Value));
+            if ((wazny_do.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((System.DateTime)(wazny_do.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
             }
-            if ((nr_przystanku.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((int)(nr_przystanku.Value));
+            if ((kalendarz.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((int)(kalendarz.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
             }
-            if ((kod_przystanku.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((int)(kod_przystanku.Value));
+            if ((id_kursu.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((int)(id_kursu.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
             }
-            if ((godz_p.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((System.TimeSpan)(godz_p.Value));
+            if ((nr_przystanku.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((int)(nr_przystanku.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
             }
-            if ((godz_o.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((System.TimeSpan)(godz_o.Value));
+            if ((kod_przystanku.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((int)(kod_przystanku.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
             }
-            if ((stanowisko == null)) {
-                this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
+            if ((godz_p.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((System.TimeSpan)(godz_p.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((string)(stanowisko));
+                this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
             }
-            if ((limit_sp.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((int)(limit_sp.Value));
+            if ((godz_o.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((System.TimeSpan)(godz_o.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[19].Value = global::System.DBNull.Value;
             }
-            if ((ile_dni_trwa_kurs.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((int)(ile_dni_trwa_kurs.Value));
-            }
-            else {
+            if ((stanowisko == null)) {
                 this.Adapter.UpdateCommand.Parameters[20].Value = global::System.DBNull.Value;
             }
-            if ((przystanek_poczatkowy.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(przystanek_poczatkowy.Value));
+            else {
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(stanowisko));
+            }
+            if ((limit_sp.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(limit_sp.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[21].Value = global::System.DBNull.Value;
             }
-            if ((przystanek_koncowy.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((int)(przystanek_koncowy.Value));
+            if ((ile_dni_trwa_kurs.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((int)(ile_dni_trwa_kurs.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[22].Value = global::System.DBNull.Value;
             }
-            if ((przystanek_tworzacy_1.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((int)(przystanek_tworzacy_1.Value));
+            if ((przystanek_poczatkowy.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((int)(przystanek_poczatkowy.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[23].Value = global::System.DBNull.Value;
             }
-            if ((przystanek_tworzacy_2.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((int)(przystanek_tworzacy_2.Value));
+            if ((przystanek_koncowy.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((int)(przystanek_koncowy.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[24].Value = global::System.DBNull.Value;
             }
-            if ((nr_bis.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((int)(nr_bis.Value));
+            if ((przystanek_tworzacy_1.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((int)(przystanek_tworzacy_1.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[25].Value = global::System.DBNull.Value;
             }
-            if ((data.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((System.DateTime)(data.Value));
+            if ((przystanek_tworzacy_2.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((int)(przystanek_tworzacy_2.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[26].Value = global::System.DBNull.Value;
             }
-            if ((id_bisa.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((int)(id_bisa.Value));
+            if ((nr_bis.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((int)(nr_bis.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[27].Value = global::System.DBNull.Value;
             }
-            if ((auto_duzy_bus.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[28].Value = ((bool)(auto_duzy_bus.Value));
+            if ((data.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((System.DateTime)(data.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[28].Value = global::System.DBNull.Value;
             }
-            if ((godz_odj.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((System.TimeSpan)(godz_odj.Value));
+            if ((id_bisa.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((int)(id_bisa.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[29].Value = global::System.DBNull.Value;
             }
-            if ((godz_przyjazdu.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((System.TimeSpan)(godz_przyjazdu.Value));
+            if ((auto_duzy_bus.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((bool)(auto_duzy_bus.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[30].Value = global::System.DBNull.Value;
             }
-            if ((duzy_autobus.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[31].Value = ((bool)(duzy_autobus.Value));
+            if ((godz_odj.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[31].Value = ((System.TimeSpan)(godz_odj.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[31].Value = global::System.DBNull.Value;
             }
-            if ((diagram_kurs_odwolany.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[32].Value = ((bool)(diagram_kurs_odwolany.Value));
+            if ((godz_przyjazdu.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[32].Value = ((System.TimeSpan)(godz_przyjazdu.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[32].Value = global::System.DBNull.Value;
             }
-            if ((Original_UID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[33].Value = ((int)(Original_UID.Value));
+            if ((duzy_autobus.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[33].Value = ((bool)(duzy_autobus.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[33].Value = global::System.DBNull.Value;
             }
-            if ((UID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[34].Value = ((int)(UID.Value));
+            if ((diagram_kurs_odwolany.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[34].Value = ((bool)(diagram_kurs_odwolany.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[34].Value = global::System.DBNull.Value;
+            }
+            if ((Original_UID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[35].Value = ((int)(Original_UID.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[35].Value = global::System.DBNull.Value;
+            }
+            if ((UID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[36].Value = ((int)(UID.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[36].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -2833,6 +2955,8 @@ namespace Rozklady.RozkladyTableAdapters {
                     string StacjaPrzez2, 
                     string StacjaKon, 
                     global::System.Nullable<int> Przewoznik, 
+                    string NazwaPrzewoznika, 
+                    string SymbolPrzewoznika, 
                     global::System.Nullable<int> id_rozkladu, 
                     string identk, 
                     global::System.Nullable<global::System.DateTime> wazny_od, 
@@ -2859,7 +2983,7 @@ namespace Rozklady.RozkladyTableAdapters {
                     global::System.Nullable<bool> duzy_autobus, 
                     global::System.Nullable<bool> diagram_kurs_odwolany, 
                     global::System.Nullable<int> Original_UID) {
-            return this.Update(NrPolaczenia, Typ, StacjaPocz, StacjaPrzez1, StacjaPrzez2, StacjaKon, Przewoznik, id_rozkladu, identk, wazny_od, wazny_do, kalendarz, id_kursu, nr_przystanku, kod_przystanku, godz_p, godz_o, stanowisko, limit_sp, ile_dni_trwa_kurs, przystanek_poczatkowy, przystanek_koncowy, przystanek_tworzacy_1, przystanek_tworzacy_2, nr_bis, data, id_bisa, auto_duzy_bus, godz_odj, godz_przyjazdu, duzy_autobus, diagram_kurs_odwolany, Original_UID, Original_UID);
+            return this.Update(NrPolaczenia, Typ, StacjaPocz, StacjaPrzez1, StacjaPrzez2, StacjaKon, Przewoznik, NazwaPrzewoznika, SymbolPrzewoznika, id_rozkladu, identk, wazny_od, wazny_do, kalendarz, id_kursu, nr_przystanku, kod_przystanku, godz_p, godz_o, stanowisko, limit_sp, ile_dni_trwa_kurs, przystanek_poczatkowy, przystanek_koncowy, przystanek_tworzacy_1, przystanek_tworzacy_2, nr_bis, data, id_bisa, auto_duzy_bus, godz_odj, godz_przyjazdu, duzy_autobus, diagram_kurs_odwolany, Original_UID, Original_UID);
         }
     }
     

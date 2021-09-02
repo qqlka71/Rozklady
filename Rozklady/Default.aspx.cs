@@ -46,6 +46,8 @@ namespace Rozklady
         public string StacjaPrzez2 { get; private set; }
         public string StacjaKon { get; private set; }
         public string Przewoznik { get; private set; }
+        public string NazwaPrzewoznika { get; private set; }
+        public string SymbolPrzewoznika { get; private set; }
 
         public clKurs(string _id_rozkladu, string _identk, string _wazny_od, string _wazny_do,
             string _kalendarz, string _id_kursu, string _nr_przystanku, string _kod_przystanku,
@@ -55,7 +57,7 @@ namespace Rozklady
             string _data, string _id_bisa, string _auto_duzy_bus, string _godz_odj,
             string _godz_przyjazdu, string _duzy_autobus, string _diagram_kurs_odwolany,
             string _NrPolaczenia, string _Typ, string _StacjaPocz, string _StacjaPrzez1,
-            string _StacjaPrzez2, string _StacjaKon, string _Przewoznik)
+            string _StacjaPrzez2, string _StacjaKon, string _Przewoznik, string _NazwaPrzewoznika, string _SymbolPrzewoznika)
         {
             id_rozkladu = _id_rozkladu;
             identk = _identk;
@@ -89,6 +91,8 @@ namespace Rozklady
             StacjaPrzez2 = _StacjaPrzez2;
             StacjaKon = _StacjaKon;
             Przewoznik = _Przewoznik;
+            NazwaPrzewoznika = _NazwaPrzewoznika;
+            SymbolPrzewoznika = _SymbolPrzewoznika;
         }
     }
     public partial class Default : System.Web.UI.Page
@@ -97,6 +101,8 @@ namespace Rozklady
         private DataTable dt = new DataTable();   
         private clKurs Kurs;
         private int UIDr = -1;
+        private string strNazwaPrzewoznika = "";
+        private string strNazwaSkrPrzewoznika = "";
         private string strNazwaPrzystP = "";
         private string strNazwaPrzystK = "";
         private string strNazwaPrzystT_1 = "";
@@ -117,10 +123,8 @@ namespace Rozklady
             int intKodDworca = 12117743;
             //string strWersjaBazy;
             int intIdRozkl = -1;
-            int intIdDziennika = -1;
             string strSQL;
-            string Przewoznik = "";
-
+            string flaga;
 
             sqlCzyscRozklad.Delete();
 
@@ -133,6 +137,22 @@ namespace Rozklady
                     
                     cmd.CommandType = CommandType.Text;                    
                     cmd.Connection = conn;
+
+                    strSQL = "DELETE FROM blokady WHERE (clock_timestamp() - blokada > '00:10:00') OR (tabela='dzienniki_dworca' AND id_rekordu=2458782012117743 AND uid='{76a158b2-6f2d-45f0-a103-958244e39446}' )";
+                    cmd.CommandText = strSQL;
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    strSQL = "INSERT INTO blokady (tabela,id_rekordu,blokada,uid) VALUES ('dzienniki_dworca',2458782012117743,clock_timestamp(),'{76a158b2-6f2d-45f0-a103-958244e39446}')";
+                    cmd.CommandText = strSQL;
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    strSQL = "DELETE FROM blokady WHERE tabela='dzienniki_dworca' AND id_rekordu=2458782012117743";
+                    cmd.CommandText = strSQL;
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
 
                     strSQL = "SELECT * FROM rozklady WHERE wazny_od <= '" + dtData.ToString() + "' AND aktywny=true ORDER BY wazny_od DESC, nazwa_a6 DESC LIMIT 1";                    
                     cmd.CommandText = strSQL;
@@ -160,11 +180,11 @@ namespace Rozklady
                     strSQL += "FROM kursy LEFT JOIN kursy_trasy ON kursy.id_kursu = kursy_trasy.id_kursu LEFT JOIN bisy ON bisy.identk = kursy.identk ";
                     strSQL += "AND data_na_przystanku( kursy.id_rozkladu, bisy.identk, kursy_trasy.nr_przystanku, bisy.data, bisy.roznica ) = '" + dtData.ToString("yyyy-MM-dd") + "' ";
                     strSQL += "LEFT JOIN firmy_parametry_dworcow AS fpd ON firma( kursy.identk ) = fpd.firma_kod AND fpd.kod_przystanku = " + intKodDworca.ToString() + " ";
-                    strSQL += "WHERE kursy.id_rozkladu = " + intIdRozkl.ToString() + " AND kursy_trasy.kod_przystanku = " + intKodDworca.ToString() + " AND NOT kursy.ks_dw_pomin AND ( kursy_trasy.godz_o IS NOT NULL OR kursy_trasy.godz_p IS NOT NULL ) ";
+                    strSQL += "WHERE kursy.id_rozkladu = " + intIdRozkl.ToString() + " AND kursy.wazny_do >= '" + dtData.ToString("yyyy-MM-dd") + "' AND kursy_trasy.kod_przystanku = " + intKodDworca.ToString() + " AND NOT kursy.ks_dw_pomin AND ( kursy_trasy.godz_o IS NOT NULL OR kursy_trasy.godz_p IS NOT NULL ) ";
                     strSQL += "AND ( bisy.data IS NULL OR data_na_przystanku( kursy.id_rozkladu, bisy.identk, kursy_trasy.nr_przystanku, bisy.data, bisy.roznica ) = '" + dtData.ToString("yyyy-MM-dd") + "' ) ";
                     strSQL += "ORDER BY kursy.id_kursu, kursy_trasy.nr_przystanku";
 
-                    //lblKom.Text += strSQL;
+                    //lblKom.Text += strSQL + "</br>";
 
                     cmd.CommandText = strSQL;                   
                     conn.Open();                    
@@ -172,40 +192,45 @@ namespace Rozklady
                     {
                         while (dr.Read())
                         {
-                            Kurs = new clKurs(dr["id_rozkladu"].ToString(),
-                                dr["identk"].ToString(),
-                                dr["wazny_od"].ToString(),
-                                dr["wazny_do"].ToString(),
-                                dr["kalendarz"].ToString(),
-                                dr["id_kursu"].ToString(),
-                                dr["nr_przystanku"].ToString(),
-                                dr["kod_przystanku"].ToString(),
-                                dr["godz_p"].ToString(),
-                                dr["godz_o"].ToString(),
-                                dr["stanowisko"].ToString(),
-                                dr["limit_sp"].ToString(),
-                                dr["ile_dni_trwa_kurs"].ToString(),
-                                dr["przystanek_poczatkowy"].ToString(),
-                                dr["przystanek_koncowy"].ToString(),
-                                dr["przystanek_tworzacy_1"].ToString(),
-                                dr["przystanek_tworzacy_2"].ToString(),
-                                dr["nr_bis"].ToString(),
-                                dr["data"].ToString(),
-                                dr["id_bisa"].ToString(),
-                                dr["auto_duzy_bus"].ToString(),
-                                dr["godz_odj"].ToString(),
-                                dr["godz_przyjazdu"].ToString(),
-                                dr["duzy_autobus"].ToString(),
-                                dr["diagram_kurs_odwolany"].ToString(),
-                                dr["identk"].ToString().Substring(5,4),
-                                dr["rk"].ToString(),
-                                strNazwaPrzystP,
-                                strNazwaPrzystT_1,
-                                strNazwaPrzystT_2,
-                                strNazwaPrzystK,
-                                int.Parse(dr["identk"].ToString().Substring(0, 4)).ToString()
-                                );
-                            odsRozklad.Insert();                            
+//                            if ((dr["stanowisko"] != null) && (dr["stanowisko"].ToString().Trim() != "  "))
+//                            {
+                                Kurs = new clKurs(dr["id_rozkladu"].ToString(),
+                                    dr["identk"].ToString(),
+                                    dr["wazny_od"].ToString(),
+                                    dr["wazny_do"].ToString(),
+                                    dr["kalendarz"].ToString(),
+                                    dr["id_kursu"].ToString(),
+                                    dr["nr_przystanku"].ToString(),
+                                    dr["kod_przystanku"].ToString(),
+                                    dr["godz_p"].ToString(),
+                                    dr["godz_o"].ToString(),
+                                    dr["stanowisko"].ToString(),
+                                    dr["limit_sp"].ToString(),
+                                    dr["ile_dni_trwa_kurs"].ToString(),
+                                    dr["przystanek_poczatkowy"].ToString(),
+                                    dr["przystanek_koncowy"].ToString(),
+                                    dr["przystanek_tworzacy_1"].ToString(),
+                                    dr["przystanek_tworzacy_2"].ToString(),
+                                    dr["nr_bis"].ToString(),
+                                    dr["data"].ToString(),
+                                    dr["id_bisa"].ToString(),
+                                    dr["auto_duzy_bus"].ToString(),
+                                    dr["godz_odj"].ToString(),
+                                    dr["godz_przyjazdu"].ToString(),
+                                    dr["duzy_autobus"].ToString(),
+                                    dr["diagram_kurs_odwolany"].ToString(),
+                                    dr["identk"].ToString().Substring(5, 4),
+                                    dr["rk"].ToString(),
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    int.Parse(dr["identk"].ToString().Substring(0, 4)).ToString(),
+                                    null,
+                                    null
+                                    );
+                                odsRozklad.Insert();
+//                            }                         
                         }
                         dr.Close();
                     }
@@ -217,84 +242,140 @@ namespace Rozklady
                         while (rdrSql.Read())
                         {
                             UIDr = int.Parse(rdrSql["UID"].ToString());
-                            if (rdrSql["przystanek_poczatkowy"] != null)
+                            strNazwaPrzewoznika = "";
+                            strNazwaSkrPrzewoznika = "";
+                            strNazwaPrzystP = "";
+                            strNazwaPrzystK = "";
+                            strNazwaPrzystT_1 = "";
+                            strNazwaPrzystT_2 = "";
+                            flaga = "0";
+
+                            if ((rdrSql["id_rozkladu"] != null) && (rdrSql["kalendarz"]!= null))
                             {
-                                if ((rdrSql["przystanek_poczatkowy"].ToString() != null) && (rdrSql["przystanek_poczatkowy"].ToString() != ""))
+                                strSQL = "select mapa from kalendarze where id_rozkladu = ";
+                                strSQL += rdrSql["id_rozkladu"] + " AND kalend = " + rdrSql["kalendarz"];
+                                strSQL += " AND rok = " + DateTime.Now.Year.ToString();
+                                strSQL += " AND miesiac = " + DateTime.Now.Month.ToString();
+                                cmd.CommandText = strSQL;
+                                conn.Open();
+                                using (NpgsqlDataReader dr = cmd.ExecuteReader())
                                 {
-                                    strSQL = "select m.nazwa, p.id_miejscowosci, p.skrot from miejscowosci m right join przystanki p on p.id_miejscowosci = m.id_miejscowosci where p.kod_przystanku = " + rdrSql["przystanek_poczatkowy"].ToString() + " limit 1";
-                                    cmd.CommandText = strSQL;
-                                    conn.Open();
-                                    using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                                    while (dr.Read())
                                     {
-                                        while (dr.Read())
+                                        if (dr["mapa"] != null)
+                                            flaga = dr["mapa"].ToString().Substring(DateTime.Now.Day-1, 1);
+                                        //lblKom.Text += dr["mapa"].ToString() + " - " + flaga + "</br>";
+                                    }                                    
+                                    dr.Close();
+                                }                                
+                                conn.Close();
+                                if (flaga == "1")
+                                {
+                                    if ((rdrSql["Przewoznik"] != null) && (rdrSql["Przewoznik"].ToString() != ""))
+                                    {
+                                        strSQL = "select nazwa, symbol from firmy where kod = " + rdrSql["Przewoznik"].ToString();
+                                        //lblKom.Text += strSQL + "</BR>";
+                                        cmd.CommandText = strSQL;
+                                        conn.Open();
+                                        using (NpgsqlDataReader dr = cmd.ExecuteReader())
                                         {
-                                            if (int.Parse(dr["id_miejscowosci"].ToString()) < 9000000)
-                                                strNazwaPrzystP = dr["nazwa"].ToString();
-                                            else
-                                                strNazwaPrzystP = dr["skrot"].ToString();
+                                            while (dr.Read())
+                                            {
+                                                if (dr["nazwa"] != null)
+                                                    strNazwaPrzewoznika = dr["nazwa"].ToString();
+                                                if (dr["symbol"] != null)
+                                                    strNazwaSkrPrzewoznika = dr["symbol"].ToString();
+                                            }
+                                            dr.Close();
                                         }
-                                        dr.Close();
+                                        conn.Close();
                                     }
-                                    conn.Close();
-                                }
 
-                                if ((rdrSql["przystanek_koncowy"].ToString() != null) && (rdrSql["przystanek_koncowy"].ToString() != ""))
-                                {
-                                    strSQL = "select m.nazwa, p.id_miejscowosci, p.skrot from miejscowosci m right join przystanki p on p.id_miejscowosci = m.id_miejscowosci where p.kod_przystanku = " + rdrSql["przystanek_koncowy"].ToString() + " limit 1";
-                                    cmd.CommandText = strSQL;
-                                    conn.Open();
-                                    using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                                    if (rdrSql["przystanek_poczatkowy"] != null)
                                     {
-                                        while (dr.Read())
+                                        if ((rdrSql["przystanek_poczatkowy"].ToString() != null) && (rdrSql["przystanek_poczatkowy"].ToString() != ""))
                                         {
-                                            if (int.Parse(dr["id_miejscowosci"].ToString()) < 9000000)
-                                                strNazwaPrzystK = dr["nazwa"].ToString();
-                                            else
-                                                strNazwaPrzystK = dr["skrot"].ToString();
+                                            strSQL = "select m.nazwa, p.id_miejscowosci, p.skrot from miejscowosci m right join przystanki p on p.id_miejscowosci = m.id_miejscowosci where p.kod_przystanku = " + rdrSql["przystanek_poczatkowy"].ToString() + " limit 1";
+                                            cmd.CommandText = strSQL;
+                                            conn.Open();
+                                            using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                                            {
+                                                while (dr.Read())
+                                                {
+                                                    if (int.Parse(dr["id_miejscowosci"].ToString()) < 9000000)
+                                                        strNazwaPrzystP = dr["nazwa"].ToString();
+                                                    else
+                                                        strNazwaPrzystP = dr["skrot"].ToString();
+                                                }
+                                                dr.Close();
+                                            }
+                                            conn.Close();
                                         }
-                                        dr.Close();
-                                    }
-                                    conn.Close();
-                                }
 
-                               if ((rdrSql["przystanek_tworzacy_1"].ToString() != null) && (rdrSql["przystanek_tworzacy_1"].ToString() != ""))
-                                {
-                                    strSQL = "select m.nazwa, p.id_miejscowosci, p.skrot from miejscowosci m right join przystanki p on p.id_miejscowosci = m.id_miejscowosci where p.kod_przystanku = " + rdrSql["przystanek_tworzacy_1"].ToString() + " limit 1";
-                                    cmd.CommandText = strSQL;
-                                    conn.Open();
-                                    using (NpgsqlDataReader dr = cmd.ExecuteReader())
-                                    {
-                                        while (dr.Read())
+                                        if ((rdrSql["przystanek_koncowy"].ToString() != null) && (rdrSql["przystanek_koncowy"].ToString() != ""))
                                         {
-                                            if (int.Parse(dr["id_miejscowosci"].ToString()) < 9000000)
-                                                strNazwaPrzystT_1 = dr["nazwa"].ToString();
-                                            else
-                                                strNazwaPrzystT_1 = dr["skrot"].ToString();
+                                            strSQL = "select m.nazwa, p.id_miejscowosci, p.skrot from miejscowosci m right join przystanki p on p.id_miejscowosci = m.id_miejscowosci where p.kod_przystanku = " + rdrSql["przystanek_koncowy"].ToString() + " limit 1";
+                                            cmd.CommandText = strSQL;
+                                            conn.Open();
+                                            using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                                            {
+                                                while (dr.Read())
+                                                {
+                                                    if (int.Parse(dr["id_miejscowosci"].ToString()) < 9000000)
+                                                        strNazwaPrzystK = dr["nazwa"].ToString();
+                                                    else
+                                                        strNazwaPrzystK = dr["skrot"].ToString();
+                                                }
+                                                dr.Close();
+                                            }
+                                            conn.Close();
                                         }
-                                        dr.Close();
-                                    }
-                                    conn.Close();
-                                }
 
-                                if ((rdrSql["przystanek_tworzacy_2"].ToString() != null) && (rdrSql["przystanek_tworzacy_2"].ToString() != ""))
-                                {
-                                    strSQL = "select m.nazwa, p.id_miejscowosci, p.skrot from miejscowosci m right join przystanki p on p.id_miejscowosci = m.id_miejscowosci where p.kod_przystanku = " + rdrSql["przystanek_tworzacy_2"].ToString() + " limit 1";
-                                    cmd.CommandText = strSQL;
-                                    conn.Open();
-                                    using (NpgsqlDataReader dr = cmd.ExecuteReader())
-                                    {
-                                        while (dr.Read())
+                                        if ((rdrSql["przystanek_tworzacy_1"].ToString() != null) && (rdrSql["przystanek_tworzacy_1"].ToString() != ""))
                                         {
-                                            if (int.Parse(dr["id_miejscowosci"].ToString()) < 9000000)
-                                                strNazwaPrzystT_2 = dr["nazwa"].ToString();
-                                            else
-                                                strNazwaPrzystT_2 = dr["skrot"].ToString();
+                                            strSQL = "select m.nazwa, p.id_miejscowosci, p.skrot from miejscowosci m right join przystanki p on p.id_miejscowosci = m.id_miejscowosci where p.kod_przystanku = " + rdrSql["przystanek_tworzacy_1"].ToString() + " limit 1";                                          
+                                            cmd.CommandText = strSQL;
+                                            conn.Open();
+                                            using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                                            {
+                                                while (dr.Read())
+                                                {
+                                                    if (int.Parse(dr["id_miejscowosci"].ToString()) < 9000000)
+                                                        strNazwaPrzystT_1 = dr["nazwa"].ToString();
+                                                    else
+                                                        strNazwaPrzystT_1 = dr["skrot"].ToString();
+                                                }
+                                                dr.Close();
+                                            }
+                                            conn.Close();
                                         }
-                                        dr.Close();
+
+                                        if ((rdrSql["przystanek_tworzacy_2"].ToString() != null) && (rdrSql["przystanek_tworzacy_2"].ToString() != ""))
+                                        {
+                                            strSQL = "select m.nazwa, p.id_miejscowosci, p.skrot from miejscowosci m right join przystanki p on p.id_miejscowosci = m.id_miejscowosci where p.kod_przystanku = " + rdrSql["przystanek_tworzacy_2"].ToString() + " limit 1";
+                                            cmd.CommandText = strSQL;
+                                            conn.Open();
+                                            using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                                            {
+                                                while (dr.Read())
+                                                {
+                                                    if (int.Parse(dr["id_miejscowosci"].ToString()) < 9000000)
+                                                        strNazwaPrzystT_2 = dr["nazwa"].ToString();
+                                                    else
+                                                        strNazwaPrzystT_2 = dr["skrot"].ToString();
+                                                }
+                                                dr.Close();
+                                            }
+                                            conn.Close();
+                                        }
                                     }
-                                    conn.Close();
+                                }
+                                else
+                                {
+                                    odsRozklad.Delete();
                                 }
                             }
+                            
                             //lblKom.Text += strNazwaPrzystP;
 
                             odsRozklad.Update();
@@ -302,9 +383,6 @@ namespace Rozklady
                         }
                         rdrSql.Close();
                     }
-
-
-
                 }
                 catch (Exception ex)
                 {
@@ -319,44 +397,127 @@ namespace Rozklady
 
         protected void btnOpublikujRozklad_Click(object sender, EventArgs e)
         {
-            string ToStation;
-            string ToThroughStation1;
-            string ToThroughStation2;
-            string Number;
-            string CarrierId;
-            string TrackId;
-            string Departure;
-            string DepartureTime;
-            string Arrival;
-            string ArrivalTime;
-            string TransDate;
-            string Active;
-            string ParentId;
-            string ArrivalDelay;
-            string DepartureDelay;
-            string ArrivalText;
-            string DepartureText;
-            string RealDepartureTime;
-            string RealArrivalTime;
-            string ActiveZap;
-            string Typ;
-            string OriginalTrackId;
-            string TrackingId;
-            string ParkingSectors;
-            string ozn;
-            string Deleted;
-
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["PKSPoznan"].ConnectionString))
+            {
+                //using (SqlCommand cmd = new SqlCommand("DELETE FROM daily.TrainSchedule WHERE TransDate < DATEADD(Day, -1, GETDATE())", conn))
+                using (SqlCommand cmd = new SqlCommand("DELETE FROM daily.TrainSchedule", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    //cmd.Parameters.AddWithValue("@Name", name);
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
+            
             sqlRozklad.DataBind();
             using (SqlDataReader rdrSql = (SqlDataReader)sqlRozklad.Select(DataSourceSelectArguments.Empty))
             {
                 while (rdrSql.Read())
                 {
-
+                    Kurs = new clKurs(rdrSql["id_rozkladu"].ToString(),
+                        rdrSql["identk"].ToString(),
+                        rdrSql["wazny_od"].ToString(),
+                        rdrSql["wazny_do"].ToString(),
+                        rdrSql["kalendarz"].ToString(),
+                        rdrSql["id_kursu"].ToString(),
+                        rdrSql["nr_przystanku"].ToString(),
+                        rdrSql["kod_przystanku"].ToString(),
+                        rdrSql["godz_p"].ToString(),
+                        rdrSql["godz_o"].ToString(),
+                        rdrSql["stanowisko"].ToString(),
+                        rdrSql["limit_sp"].ToString(),
+                        rdrSql["ile_dni_trwa_kurs"].ToString(),
+                        rdrSql["przystanek_poczatkowy"].ToString(),
+                        rdrSql["przystanek_koncowy"].ToString(),
+                        rdrSql["przystanek_tworzacy_1"].ToString(),
+                        rdrSql["przystanek_tworzacy_2"].ToString(),
+                        rdrSql["nr_bis"].ToString(),
+                        rdrSql["data"].ToString(),
+                        rdrSql["id_bisa"].ToString(),
+                        rdrSql["auto_duzy_bus"].ToString(),
+                        rdrSql["godz_odj"].ToString(),
+                        rdrSql["godz_przyjazdu"].ToString(),
+                        rdrSql["duzy_autobus"].ToString(),
+                        rdrSql["diagram_kurs_odwolany"].ToString(),
+                        rdrSql["identk"].ToString().Substring(5, 4),
+                        rdrSql["Typ"].ToString(),
+                        rdrSql["StacjaPocz"].ToString(),
+                        rdrSql["StacjaPrzez1"].ToString(),
+                        rdrSql["StacjaPrzez2"].ToString(),
+                        rdrSql["StacjaKon"].ToString(),
+                        rdrSql["Przewoznik"].ToString(),
+                        rdrSql["NazwaPrzewoznika"].ToString(),
+                        rdrSql["SymbolPrzewoznika"].ToString()
+                        );
+                    odsTrackerTrainSchedule.Insert();
                 }
                 rdrSql.Close();
             }
         }
+        protected void odsTrackerTrainSchedule_Inserting(object sender, ObjectDataSourceMethodEventArgs e)
+        {
+            if ((Kurs.godz_o != null) && (Kurs.godz_o != ""))
+            {
+                e.InputParameters["Departure"] = true;
+                e.InputParameters["DepartureTime"] = TimeSpan.Parse(Kurs.godz_o);               
+            }
+            else
+            {
+                e.InputParameters["Departure"] = false;
+            }
 
+            if ((Kurs.godz_p != null) && (Kurs.godz_p != ""))
+            {
+                e.InputParameters["Arrival"] = true;
+                e.InputParameters["ArrivalTime"] = TimeSpan.Parse(Kurs.godz_p);                
+            }
+            else
+            {
+                e.InputParameters["Arrival"] = false;
+            }
+
+            if ((Kurs.StacjaPocz != null) && (Kurs.StacjaPocz.Trim() != ""))
+            {
+                e.InputParameters["StacjaPocz"] = Kurs.StacjaPocz;
+            }
+
+            if ((Kurs.StacjaKon != null) && (Kurs.StacjaKon.Trim() != ""))
+            {
+                e.InputParameters["StacjaKon"] = Kurs.StacjaKon;
+            }
+
+            if ((Kurs.StacjaPrzez1 != null) && (Kurs.StacjaPrzez1.Trim() != ""))
+            {
+                e.InputParameters["StacjaPrzez1"] = Kurs.StacjaPrzez1;
+            }
+
+            if ((Kurs.StacjaPrzez2 != null) && (Kurs.StacjaPrzez2.Trim() != ""))
+            {
+                e.InputParameters["StacjaPrzez2"] = Kurs.StacjaPrzez2;
+            }
+
+            if (int.Parse(Kurs.Typ.ToString()) > 3)
+                e.InputParameters["ParkingSectors"] = "Z";
+            else
+                e.InputParameters["ParkingSectors"] = "K";
+
+            e.InputParameters["Typ"] = int.Parse(Kurs.Typ.ToString());
+            e.InputParameters["TrackId"] = int.Parse(Kurs.stanowisko.ToString());
+            e.InputParameters["OriginalTrackId"] = int.Parse(Kurs.stanowisko.ToString());
+            e.InputParameters["Number"] = int.Parse(Kurs.NrPolaczenia).ToString();
+            e.InputParameters["Przewoznik"] = Kurs.Przewoznik;
+            e.InputParameters["NazwaPrzewoznika"] = Kurs.NazwaPrzewoznika;
+            e.InputParameters["SymbolPrzewoznika"] = Kurs.SymbolPrzewoznika;
+            e.InputParameters["Sectors"] = "";
+            e.InputParameters["TransDate"] = DateTime.Now;
+            e.InputParameters["Active"] = true;
+            e.InputParameters["ArrivalDelay"] = 0;
+            e.InputParameters["DepartureDelay"] = 0;
+            e.InputParameters["ActiveZap"] = 0;
+            e.InputParameters["Deleted"] = false;
+
+        }
         protected void odsRozklad_Inserting(object sender, ObjectDataSourceMethodEventArgs e)
         {
             //lblKom.Text += "Dodano rekord";
@@ -448,6 +609,10 @@ namespace Rozklady
         protected void odsRozklad_Updating(object sender, ObjectDataSourceMethodEventArgs e)
         {
             e.InputParameters["Original_UID"] = UIDr;
+            if ((strNazwaPrzewoznika != null) && (strNazwaPrzewoznika != ""))
+                e.InputParameters["NazwaPrzewoznika"] = strNazwaPrzewoznika;
+            if ((strNazwaSkrPrzewoznika != null) && (strNazwaSkrPrzewoznika != ""))
+                e.InputParameters["SymbolPrzewoznika"] = strNazwaSkrPrzewoznika;
             if ((strNazwaPrzystP != null) && (strNazwaPrzystP != ""))
                 e.InputParameters["stacjaPocz"] = strNazwaPrzystP;
             if ((strNazwaPrzystT_1 != null) && (strNazwaPrzystT_1 != ""))
@@ -479,6 +644,9 @@ namespace Rozklady
             }
         }
 
-
+        protected void odsRozklad_Deleting(object sender, ObjectDataSourceMethodEventArgs e)
+        {
+            e.InputParameters["Original_UID"] = UIDr;
+        }
     }
 }

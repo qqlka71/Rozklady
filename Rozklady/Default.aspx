@@ -13,8 +13,8 @@
         window.onload = function () {
             var options = new GridViewScrollOptions();
             options.elementID = "GridView1";
-            options.width = "100%";
-            options.height = 750;
+            options.width = "97%";
+            options.height = 800;
 //            options.freezeColumn = true;
 //            options.freezeFooter = true;
 //            options.freezeColumnCssClass = "GridViewScrollItemFreeze";
@@ -33,18 +33,81 @@
         <div>
             <asp:ScriptManager ID="ScriptManager1" runat="server">
             </asp:ScriptManager>
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4" DataKeyNames="UID" DataSourceID="odsRozklad" ForeColor="Black" PageSize="50" Font-Names="Courier New" OnRowCreated="GridView1_RowCreated" OnRowDataBound="GridView1_RowDataBound">
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4" DataKeyNames="UID" DataSourceID="odsRozklad" ForeColor="Black" PageSize="50" Font-Names="Courier New" OnRowCreated="GridView1_RowCreated" OnRowDataBound="GridView1_RowDataBound" AllowSorting="True">
                 <Columns>
-                    <asp:CommandField ShowSelectButton="True" />
                     <asp:BoundField DataField="UID" HeaderText="UID" InsertVisible="False" ReadOnly="True" SortExpression="UID" Visible="False" />
-                    <asp:BoundField DataField="NrPolaczenia" HeaderText="NrPolaczenia" SortExpression="NrPolaczenia" />
-                    <asp:BoundField DataField="Typ" HeaderText="Typ" SortExpression="Typ" />
-                    <asp:BoundField DataField="StacjaPocz" HeaderText="StacjaPocz" SortExpression="StacjaPocz" />
-                    <asp:BoundField DataField="StacjaKon" HeaderText="StacjaKon" SortExpression="StacjaKon" />
-                    <asp:BoundField DataField="StacjaPrzez1" HeaderText="StacjaPrzez1" SortExpression="StacjaPrzez1" />
-                    <asp:BoundField DataField="StacjaPrzez2" HeaderText="StacjaPrzez2" SortExpression="StacjaPrzez2" />
-                    <asp:BoundField DataField="Przewoznik" HeaderText="Przewoznik" SortExpression="Przewoznik" />
-                    <asp:BoundField DataField="id_rozkladu" HeaderText="id_rozkladu" SortExpression="id_rozkladu" />
+                    <asp:TemplateField HeaderText="NrPolaczenia" SortExpression="NrPolaczenia">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("NrPolaczenia") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label1" runat="server" Text='<%# Bind("NrPolaczenia") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Typ" SortExpression="Typ">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("Typ") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("Typ") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="StacjaPocz" SortExpression="StacjaPocz">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("StacjaPocz") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label3" runat="server" Text='<%# Bind("StacjaPocz") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="StacjaKon" SortExpression="StacjaKon">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox4" runat="server" Text='<%# Bind("StacjaKon") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label4" runat="server" Text='<%# Bind("StacjaKon") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="StacjaPrzez1" SortExpression="StacjaPrzez1">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox5" runat="server" Text='<%# Bind("StacjaPrzez1") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("StacjaPrzez1") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="StacjaPrzez2" SortExpression="StacjaPrzez2">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox6" runat="server" Text='<%# Bind("StacjaPrzez2") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label6" runat="server" Text='<%# Bind("StacjaPrzez2") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Przewoznik" SortExpression="Przewoznik">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox7" runat="server" Text='<%# Bind("Przewoznik") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label7" runat="server" Text='<%# Bind("Przewoznik") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="NazwaPrzewoznika" SortExpression="NazwaPrzewoznika">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox8" runat="server" Text='<%# Bind("NazwaPrzewoznika") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label8" runat="server" Text='<%# Bind("NazwaPrzewoznika") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="id_rozkladu" SortExpression="id_rozkladu">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox9" runat="server" Text='<%# Bind("id_rozkladu") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label9" runat="server" Text='<%# Bind("id_rozkladu") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:BoundField DataField="identk" HeaderText="identk" SortExpression="identk" Visible="False" />
                     <asp:BoundField DataField="wazny_od" HeaderText="wazny_od" SortExpression="wazny_od" Visible="False" />
                     <asp:BoundField DataField="wazny_do" HeaderText="wazny_do" SortExpression="wazny_do" Visible="False" />
@@ -52,9 +115,30 @@
                     <asp:BoundField DataField="id_kursu" HeaderText="id_kursu" SortExpression="id_kursu" />
                     <asp:BoundField DataField="nr_przystanku" HeaderText="nr_przystanku" SortExpression="nr_przystanku" />
                     <asp:BoundField DataField="kod_przystanku" HeaderText="kod_przystanku" SortExpression="kod_przystanku" Visible="False" />
-                    <asp:BoundField DataField="godz_p" HeaderText="godz_p" SortExpression="godz_p" />
-                    <asp:BoundField DataField="godz_o" HeaderText="godz_o" SortExpression="godz_o" />
-                    <asp:BoundField DataField="stanowisko" HeaderText="stanowisko" SortExpression="stanowisko" />
+                    <asp:TemplateField HeaderText="godz_p" SortExpression="godz_p">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox10" runat="server" Text='<%# Bind("godz_p") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label10" runat="server" Text='<%# Bind("godz_p") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="godz_o" SortExpression="godz_o">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox11" runat="server" Text='<%# Bind("godz_o") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label11" runat="server" Text='<%# Bind("godz_o") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="stanowisko" SortExpression="stanowisko">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox12" runat="server" Text='<%# Bind("stanowisko") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label12" runat="server" Text='<%# Bind("stanowisko") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:BoundField DataField="godz_przyjazdu" HeaderText="godz_przyjazdu" SortExpression="godz_przyjazdu" Visible="False" />
                     <asp:BoundField DataField="godz_odj" HeaderText="godz_odj" SortExpression="godz_odj" Visible="False" />
                     <asp:BoundField DataField="limit_sp" HeaderText="limit_sp" SortExpression="limit_sp" Visible="False" />
@@ -88,7 +172,7 @@
             <asp:Label ID="lblKom" runat="server"></asp:Label>
             <asp:SqlDataSource ID="sqlRozklad" runat="server" ConnectionString="<%$ ConnectionStrings:RozkladyConnectionString %>" DataSourceMode="DataReader" SelectCommand="SELECT * FROM [Rozklad]"></asp:SqlDataSource>
         </div>
-        <asp:ObjectDataSource ID="odsRozklad" runat="server" DeleteMethod="Delete" InsertMethod="Insert" OldValuesParameterFormatString="original_{0}" OnInserting="odsRozklad_Inserting" SelectMethod="GetData" TypeName="Rozklady.RozkladyTableAdapters.RozkladTableAdapter" UpdateMethod="Update" OnUpdating="odsRozklad_Updating">
+        <asp:ObjectDataSource ID="odsRozklad" runat="server" DeleteMethod="Delete" InsertMethod="Insert" OldValuesParameterFormatString="original_{0}" OnInserting="odsRozklad_Inserting" SelectMethod="GetData" TypeName="Rozklady.RozkladyTableAdapters.RozkladTableAdapter" UpdateMethod="Update" OnUpdating="odsRozklad_Updating" OnDeleting="odsRozklad_Deleting">
             <DeleteParameters>
                 <asp:Parameter Name="Original_UID" Type="Int32" />
             </DeleteParameters>
@@ -99,7 +183,9 @@
                 <asp:Parameter Name="StacjaPrzez1" Type="String" />
                 <asp:Parameter Name="StacjaPrzez2" Type="String" />
                 <asp:Parameter Name="StacjaKon" Type="String" />
-                <asp:Parameter Name="Przewoznik" Type="String" />
+                <asp:Parameter Name="Przewoznik" Type="Int32" />
+                <asp:Parameter Name="NazwaPrzewoznika" Type="String" />
+                <asp:Parameter Name="SymbolPrzewoznika" Type="String" />
                 <asp:Parameter Name="id_rozkladu" Type="Int32" />
                 <asp:Parameter Name="identk" Type="String" />
                 <asp:Parameter Name="wazny_od" Type="DateTime" />
@@ -133,7 +219,9 @@
                 <asp:Parameter Name="StacjaPrzez1" Type="String" />
                 <asp:Parameter Name="StacjaPrzez2" Type="String" />
                 <asp:Parameter Name="StacjaKon" Type="String" />
-                <asp:Parameter Name="Przewoznik" Type="String" />
+                <asp:Parameter Name="Przewoznik" Type="Int32" />
+                <asp:Parameter Name="NazwaPrzewoznika" Type="String" />
+                <asp:Parameter Name="SymbolPrzewoznika" Type="String" />
                 <asp:Parameter Name="id_rozkladu" Type="Int32" />
                 <asp:Parameter Name="identk" Type="String" />
                 <asp:Parameter Name="wazny_od" Type="DateTime" />
@@ -163,10 +251,61 @@
             </UpdateParameters>
         </asp:ObjectDataSource>
         <asp:SqlDataSource ID="sqlCzyscRozklad" runat="server" ConnectionString="<%$ ConnectionStrings:RozkladyConnectionString %>" DeleteCommand="CzyscRozklad" DeleteCommandType="StoredProcedure" SelectCommand="CzyscRozklad" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
-        <asp:SqlDataSource ID="sqlDworzecMiejscowosci" runat="server" ConnectionString="<%$ ConnectionStrings:DworzecSQLConnectionString %>" DataSourceMode="DataReader" ProviderName="<%$ ConnectionStrings:DworzecSQLConnectionString.ProviderName %>" SelectCommand="SELECT m.nazwa, p.kod_przystanku FROM miejscowosci m RIGHT OUTER JOIN przystanki p ON p.id_miejscowosci = m.id_miejscowosci"></asp:SqlDataSource>
-        <asp:ObjectDataSource ID="odsTrackerTrainSchedule" runat="server"></asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="odsStacje" runat="server"></asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="odsTrackerPrzewoznicy" runat="server"></asp:ObjectDataSource>
+        <asp:SqlDataSource ID="sqlCzyscTrainSchedule" runat="server" ConnectionString="<%$ ConnectionStrings:RozkladyConnectionString %>" DeleteCommand="CzyscRozklad" DeleteCommandType="StoredProcedure" SelectCommand="CzyscRozklad" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+        <asp:ObjectDataSource ID="odsTrackerTrainSchedule" runat="server" InsertMethod="Insert" OldValuesParameterFormatString="original_{0}" SelectMethod="GetData" TypeName="Rozklady.TrackerTableAdapters.TrainScheduleTableAdapter" OnInserting="odsTrackerTrainSchedule_Inserting">
+            <InsertParameters>
+                <asp:Parameter Name="StacjaPocz" Type="String" />
+                <asp:Parameter Name="StacjaPrzez1" Type="String" />
+                <asp:Parameter Name="StacjaPrzez2" Type="String" />
+                <asp:Parameter Name="StacjaKon" Type="String" />
+                <asp:Parameter Name="Przewoznik" Type="String" />
+                <asp:Parameter Name="NazwaPrzewoznika" Type="String" />
+                <asp:Parameter Name="SymbolPrzewoznika" Type="String" />
+                <asp:Parameter Name="FromStation" Type="Int32" />
+                <asp:Parameter Name="FromThroughStation1" Type="Int32" />
+                <asp:Parameter Name="FromThroughStation2" Type="Int32" />
+                <asp:Parameter Name="FromThroughStation3" Type="Int32" />
+                <asp:Parameter Name="FromThroughStation4" Type="Int32" />
+                <asp:Parameter Name="ToStation" Type="Int32" />
+                <asp:Parameter Name="ToThroughStation1" Type="Int32" />
+                <asp:Parameter Name="ToThroughStation2" Type="Int32" />
+                <asp:Parameter Name="ToThroughStation3" Type="Int32" />
+                <asp:Parameter Name="ToThroughStation4" Type="Int32" />
+                <asp:Parameter Name="FromThroughStation5" Type="Int32" />
+                <asp:Parameter Name="FromThroughStation6" Type="Int32" />
+                <asp:Parameter Name="FromThroughStation7" Type="Int32" />
+                <asp:Parameter Name="FromThroughStation8" Type="Int32" />
+                <asp:Parameter Name="ToThroughStation5" Type="Int32" />
+                <asp:Parameter Name="ToThroughStation6" Type="Int32" />
+                <asp:Parameter Name="ToThroughStation7" Type="Int32" />
+                <asp:Parameter Name="ToThroughStation8" Type="Int32" />
+                <asp:Parameter Name="Name" Type="String" />
+                <asp:Parameter Name="Number" Type="String" />
+                <asp:Parameter Name="CarrierId" Type="Int32" />
+                <asp:Parameter Name="TrackId" Type="Int32" />
+                <asp:Parameter Name="Sectors" Type="String" />
+                <asp:Parameter Name="Departure" Type="Boolean" />
+                <asp:Parameter Name="DepartureTime" DbType="Time" />
+                <asp:Parameter Name="Arrival" Type="Boolean" />
+                <asp:Parameter Name="ArrivalTime" DbType="Time" />
+                <asp:Parameter Name="TransDate" Type="DateTime" />
+                <asp:Parameter Name="Active" Type="Boolean" />
+                <asp:Parameter Name="ParentId" Type="Int64" />
+                <asp:Parameter Name="ArrivalDelay" Type="Int32" />
+                <asp:Parameter Name="DepartureDelay" Type="Int32" />
+                <asp:Parameter Name="ArrivalText" Type="String" />
+                <asp:Parameter Name="DepartureText" Type="String" />
+                <asp:Parameter Name="RealDepartureTime" Type="DateTime" />
+                <asp:Parameter Name="RealArrivalTime" Type="DateTime" />
+                <asp:Parameter Name="ActiveZap" Type="Int32" />
+                <asp:Parameter Name="Typ" Type="Int32" />
+                <asp:Parameter Name="OriginalTrackId" Type="Int32" />
+                <asp:Parameter Name="TrackingId" Type="Int32" />
+                <asp:Parameter Name="ParkingSectors" Type="String" />
+                <asp:Parameter Name="ozn" Type="String" />
+                <asp:Parameter Name="Deleted" Type="Boolean" />
+            </InsertParameters>
+        </asp:ObjectDataSource>
     </form>
 </body>
 </html>

@@ -96,13 +96,13 @@ namespace Rozklady
         protected global::System.Web.UI.WebControls.SqlDataSource sqlCzyscRozklad;
 
         /// <summary>
-        /// Kontrolka sqlDworzecMiejscowosci.
+        /// Kontrolka sqlCzyscTrainSchedule.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// By zmodyfikować deklaracje pola przenieś ją z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource sqlDworzecMiejscowosci;
+        protected global::System.Web.UI.WebControls.SqlDataSource sqlCzyscTrainSchedule;
 
         /// <summary>
         /// Kontrolka odsTrackerTrainSchedule.
@@ -112,23 +112,5 @@ namespace Rozklady
         /// By zmodyfikować deklaracje pola przenieś ją z pliku projektanta do pliku codebehind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsTrackerTrainSchedule;
-
-        /// <summary>
-        /// Kontrolka odsStacje.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// By zmodyfikować deklaracje pola przenieś ją z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsStacje;
-
-        /// <summary>
-        /// Kontrolka odsTrackerPrzewoznicy.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// By zmodyfikować deklaracje pola przenieś ją z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsTrackerPrzewoznicy;
     }
 }

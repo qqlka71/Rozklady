@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Rozklady</RootNamespace>
     <AssemblyName>Rozklady</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44343</IISExpressSSLPort>
@@ -159,17 +159,6 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <Content Include="DworzecSQL.xsc">
-      <DependentUpon>DworzecSQL.xsd</DependentUpon>
-    </Content>
-    <None Include="DworzecSQL.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DworzecSQL.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="DworzecSQL.xss">
-      <DependentUpon>DworzecSQL.xsd</DependentUpon>
-    </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="js\fixed-table.js" />
     <Content Include="js\gridviewscroll.js" />
@@ -270,11 +259,6 @@
     </Compile>
     <Compile Include="Default_.aspx.designer.cs">
       <DependentUpon>Default_.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="DworzecSQL.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DworzecSQL.xsd</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
